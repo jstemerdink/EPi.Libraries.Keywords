@@ -16,6 +16,7 @@
     <dependencies>
       <dependency id="EPiServer.CMS.Core" version="[7.7.1, 8.0)" />
       <dependency id="EPiServer.CMS.UI.Core" version="[7.8.2, 8.0)" />
+      <dependency id="EPi.Libraries.Keywords" version="1.0.0.0" />
     </dependencies>
   </metadata>
   <files>
