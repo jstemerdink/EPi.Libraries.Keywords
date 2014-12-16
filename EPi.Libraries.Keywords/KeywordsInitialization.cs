@@ -61,6 +61,12 @@ namespace EPi.Libraries.Keywords
         #region Properties
 
         /// <summary>
+        ///     Gets or sets the content events.
+        /// </summary>
+        /// <value>The content events.</value>
+        protected Injected<IContentEvents> ContentEvents { get; set; }
+
+        /// <summary>
         ///     Gets or sets the content repository.
         /// </summary>
         /// <value>The content repository.</value>
@@ -73,7 +79,7 @@ namespace EPi.Libraries.Keywords
         protected Injected<IContentTypeRepository> ContentTypeRepository { get; set; }
 
         /// <summary>
-        /// Gets or sets the extraction service.
+        ///     Gets or sets the extraction service.
         /// </summary>
         /// <value>The extraction service.</value>
         protected Injected<IExtractionService> ExtractionService { get; set; }
@@ -93,68 +99,7 @@ namespace EPi.Libraries.Keywords
         /// </remarks>
         public void Initialize(InitializationEngine context)
         {
-            DataFactory.Instance.PublishingPage += this.OnPublishingPage;
-        }
-
-        /// <summary>
-        ///     Raises the page event.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="pageEventArgs">Event information to send to registered event handlers.</param>
-        public void OnPublishingPage(object sender, PageEventArgs pageEventArgs)
-        {
-            if (pageEventArgs == null)
-            {
-                return;
-            }
-
-            PageData page = pageEventArgs.Page;
-
-            if (page == null)
-            {
-                return;
-            }
-
-            PropertyInfo keywordsMetatagProperty = GetKeyWordProperty(page);
-
-            if (keywordsMetatagProperty == null)
-            {
-                return;
-            }
-
-            IEnumerable<string> props = this.GetSearchablePropertyValues(page, page.ContentTypeID);
-
-            string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", props), 0);
-
-            ReadOnlyCollection<string> keywordList;
-
-            try
-            {
-                keywordList = this.ExtractionService.Service.GetKeywords(textToAnalyze);
-            }
-            catch (ActivationException activationException)
-            {
-                Logger.Error("[SEO] No extraction service available", activationException);
-                return;
-            }
-
-            if (keywordList.Count == 0)
-            {
-                return;
-            }
-
-            if (keywordsMetatagProperty.PropertyType == typeof(string[]))
-            {
-                page[keywordsMetatagProperty.Name] = keywordList.ToArray();
-            }
-            else if (keywordsMetatagProperty.PropertyType == typeof(List<string>))
-            {
-                page[keywordsMetatagProperty.Name] = keywordList;
-            }
-            else if (keywordsMetatagProperty.PropertyType == typeof(string))
-            {
-                page[keywordsMetatagProperty.Name] = string.Join(",", keywordList);
-            }
+            this.ContentEvents.Service.PublishingContent += this.OnPublishingContent;
         }
 
         /// <summary>
@@ -189,7 +134,7 @@ namespace EPi.Libraries.Keywords
         /// </remarks>
         public void Uninitialize(InitializationEngine context)
         {
-            DataFactory.Instance.PublishingPage -= this.OnPublishingPage;
+            this.ContentEvents.Service.PublishingContent -= this.OnPublishingContent;
         }
 
         #endregion
@@ -268,6 +213,62 @@ namespace EPi.Libraries.Keywords
         private IEnumerable<string> GetSearchablePropertyValues(IContentData contentData, int contentTypeID)
         {
             return this.GetSearchablePropertyValues(contentData, this.ContentTypeRepository.Service.Load(contentTypeID));
+        }
+
+        private void OnPublishingContent(object sender, ContentEventArgs e)
+        {
+            if (e == null)
+            {
+                return;
+            }
+
+            PageData page = e.Content as PageData;
+
+            if (page == null)
+            {
+                return;
+            }
+
+            PropertyInfo keywordsMetatagProperty = GetKeyWordProperty(page);
+
+            if (keywordsMetatagProperty == null)
+            {
+                return;
+            }
+
+            IEnumerable<string> props = this.GetSearchablePropertyValues(page, page.ContentTypeID);
+
+            string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", props), 0);
+
+            ReadOnlyCollection<string> keywordList;
+
+            try
+            {
+                keywordList = this.ExtractionService.Service.GetKeywords(textToAnalyze);
+            }
+            catch (ActivationException activationException)
+            {
+                Logger.Error("[SEO] No extraction service available", activationException);
+                return;
+            }
+
+            if (keywordList.Count == 0)
+            {
+                return;
+            }
+
+            if (keywordsMetatagProperty.PropertyType == typeof(string[]))
+            {
+                page[keywordsMetatagProperty.Name] = keywordList.ToArray();
+            }
+            else if (keywordsMetatagProperty.PropertyType == typeof(List<string>))
+            {
+                page[keywordsMetatagProperty.Name] = keywordList;
+            }
+            else if (keywordsMetatagProperty.PropertyType == typeof(string))
+            {
+                page[keywordsMetatagProperty.Name] = string.Join(",", keywordList);
+            }
         }
 
         #endregion

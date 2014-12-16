@@ -1,10 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{9C1BA615-DD1C-4597-94B1-0BD249A43D91}"
 	ProjectSection(SolutionItems) = preProject
+		EPi.Libraries.Keywords.Alchemy\EPi.Libraries.Keywords.Alchemy.nuspec = EPi.Libraries.Keywords.Alchemy\EPi.Libraries.Keywords.Alchemy.nuspec
+		EPi.Libraries.Keywords\EPi.Libraries.Keywords.nuspec = EPi.Libraries.Keywords\EPi.Libraries.Keywords.nuspec
 		Solution Files\EPiServer.Libraries.ruleset = Solution Files\EPiServer.Libraries.ruleset
 		README.md = README.md
 	EndProjectSection
