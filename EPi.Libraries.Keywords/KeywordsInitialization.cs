@@ -238,7 +238,7 @@ namespace EPi.Libraries.Keywords
 
             IEnumerable<string> props = this.GetSearchablePropertyValues(page, page.ContentTypeID);
 
-            string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", props), 0);
+            string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", props), 0).ToLowerInvariant();
 
             ReadOnlyCollection<string> keywordList;
 
