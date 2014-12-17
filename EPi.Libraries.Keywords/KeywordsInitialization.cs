@@ -24,6 +24,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -35,6 +36,7 @@ using EPiServer.Core.Html;
 using EPiServer.DataAbstraction;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
+using EPiServer.Globalization;
 using EPiServer.ServiceLocation;
 using EPiServer.SpecializedProperties;
 
@@ -238,7 +240,7 @@ namespace EPi.Libraries.Keywords
 
             IEnumerable<string> props = this.GetSearchablePropertyValues(page, page.ContentTypeID);
 
-            string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", props), 0).ToLowerInvariant();
+            string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", props), 0).ToLower(page.Language);
 
             ReadOnlyCollection<string> keywordList;
 
