@@ -180,6 +180,7 @@
     <None Include="EPiServer.Libraries.snk" />
     <None Include="packages.config" />
     <None Include="README.md" />
+    <None Include="web.config.install.xdt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EPi.Libraries.Keywords\EPi.Libraries.Keywords.csproj">

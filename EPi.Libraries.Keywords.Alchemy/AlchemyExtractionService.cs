@@ -121,17 +121,26 @@ namespace EPi.Libraries.Keywords.Alchemy
                 WebRequest translationWebRequest = WebRequest.Create(uri);
                 translationWebRequest.Method = "POST";
 
-                WebResponse response = translationWebRequest.GetResponse();
-                Stream stream = response.GetResponseStream();
-                Encoding encode = Encoding.GetEncoding("utf-8");
+                Stream stream;
+
+                using (WebResponse response = translationWebRequest.GetResponse())
+                {
+                    stream = response.GetResponseStream();
+                }
 
                 if (stream == null)
                 {
                     return null;
                 }
 
-                StreamReader translatedStream = new StreamReader(stream, encode);
-                string json = translatedStream.ReadToEnd();
+                Encoding encode = Encoding.GetEncoding("utf-8");
+
+                string json;
+
+                using (StreamReader translatedStream = new StreamReader(stream, encode))
+                {
+                    json = translatedStream.ReadToEnd();
+                }
 
                 AlchemyResponse alchemyResponse = JsonConvert.DeserializeObject<AlchemyResponse>(json);
 
@@ -174,6 +183,12 @@ namespace EPi.Libraries.Keywords.Alchemy
         private void GetSettings()
         {
             string alchemyKey = ConfigurationManager.AppSettings["seo.alchemy.key"];
+            int maxItems;
+            
+            if (!int.TryParse(ConfigurationManager.AppSettings["seo.alchemy.maxitems"], out maxItems))
+            {
+                maxItems = 20;
+            }
 
             PageData startPageData = this.ContentRepository.Service.Get<PageData>(ContentReference.StartPage);
 
@@ -185,7 +200,7 @@ namespace EPi.Libraries.Keywords.Alchemy
 
             if (keywordSettingsProperty == null)
             {
-                this.MaxItems = 20;
+                this.MaxItems = maxItems;
                 this.AlchemyKey = alchemyKey;
                 return;
             }
@@ -195,7 +210,7 @@ namespace EPi.Libraries.Keywords.Alchemy
 
             if (keywordGenerationSettings == null)
             {
-                this.MaxItems = 20;
+                this.MaxItems = maxItems;
                 this.AlchemyKey = alchemyKey;
                 return;
             }
