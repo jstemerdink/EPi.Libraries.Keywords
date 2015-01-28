@@ -1,5 +1,5 @@
 ﻿<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
-  <appSettings xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+  <appSettings xdt:Transform="InsertIfMissing" />
   
   <appSettings>
     <add key="seo.alchemy.key" value="" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
