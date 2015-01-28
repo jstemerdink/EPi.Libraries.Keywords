@@ -171,8 +171,6 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\AlchemyResponse.cs" />
     <Compile Include="Models\Keyword.cs" />
-    <Compile Include="KeywordGenerationSettingsAttribute.cs" />
-    <Compile Include="Models\KeywordGenerationSettingsBlock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Sentiment.cs" />
   </ItemGroup>

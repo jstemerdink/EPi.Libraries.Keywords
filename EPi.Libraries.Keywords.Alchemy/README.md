@@ -8,10 +8,9 @@ Add EPi.Libraries.SEO to your project. When you add this, the service will be in
 
 Next add an Alchemy API key to your appsettings ```<add key="seo.alchemy.key" value="YourKey" />```
 Alchemy will analyze your content marked Searchable and they keywords it returns will be added to
-the content of the property marked with ```[KeywordsMetaTag]``.
+the content of the property marked with ```[KeywordsMetaTag]```.
 
-Or add a ```KeywordGenerationSettingsBlock``` to your start page type, 
-if you would like to configure the settings that way.
+Add an maximum amount key to your appsettings ```<add key="seo.alchemy.maxitems" value="YourValue" />``` if you want less/more then 20 items to be returned.
 
 Note that not all languages are supported by Alchemy (http://www.alchemyapi.com/)
 

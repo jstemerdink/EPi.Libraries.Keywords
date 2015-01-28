@@ -3,6 +3,6 @@
   
   <appSettings>
     <add key="seo.alchemy.key" value="" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
-    <add key="seo.alchemy.maxitems" value="" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+    <add key="seo.alchemy.maxitems" value="20" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
   </appSettings>
 </configuration>

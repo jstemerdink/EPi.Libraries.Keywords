@@ -1,4 +1,4 @@
-﻿// Copyright© 2014 Jeroen Stemerdink. All Rights Reserved.
+﻿// Copyright© 2015 Jeroen Stemerdink. All Rights Reserved.
 // 
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,14 +29,12 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text;
 using System.Web;
 
 using EPi.Libraries.Keywords.Alchemy.Models;
 
 using EPiServer;
-using EPiServer.Core;
 using EPiServer.ServiceLocation;
 
 using log4net;
@@ -69,16 +67,35 @@ namespace EPi.Libraries.Keywords.Alchemy
         protected Injected<IContentRepository> ContentRepository { get; set; }
 
         /// <summary>
-        ///     Gets or sets the alchemy key.
+        ///     Gets the alchemy key.
         /// </summary>
         /// <value>The alchemy key.</value>
-        private string AlchemyKey { get; set; }
+        private static string AlchemyKey
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["seo.alchemy.key"];
+            }
+        }
 
         /// <summary>
-        ///     Gets or sets the maximum items.
+        ///     Gets the maximum items.
         /// </summary>
         /// <value>The maximum items.</value>
-        private int MaxItems { get; set; }
+        private static int MaxItems
+        {
+            get
+            {
+                int maxItems;
+
+                if (!int.TryParse(ConfigurationManager.AppSettings["seo.alchemy.maxitems"], out maxItems))
+                {
+                    maxItems = 20;
+                }
+
+                return maxItems;
+            }
+        }
 
         #endregion
 
@@ -91,9 +108,7 @@ namespace EPi.Libraries.Keywords.Alchemy
         /// <returns>ReadOnlyCollection&lt;System.String&gt;.</returns>
         public ReadOnlyCollection<string> GetKeywords(string text)
         {
-            this.GetSettings();
-
-            if (string.IsNullOrWhiteSpace(this.AlchemyKey))
+            if (string.IsNullOrWhiteSpace(AlchemyKey))
             {
                 return new ReadOnlyCollection<string>(new List<string>());
             }
@@ -108,9 +123,9 @@ namespace EPi.Libraries.Keywords.Alchemy
                             string.Format(
                                 CultureInfo.InvariantCulture,
                                 "http://access.alchemyapi.com/calls/text/TextGetRankedKeywords?apikey={0}&text={1}&maxRetrieve={2}&keywordExtractMode=strict&outputMode=json",
-                                this.AlchemyKey,
+                                AlchemyKey,
                                 HttpUtility.UrlEncode(text),
-                                this.MaxItems));
+                                MaxItems));
                 }
                 catch (UriFormatException uriFormatException)
                 {
@@ -158,67 +173,6 @@ namespace EPi.Libraries.Keywords.Alchemy
                 Logger.Error("[SEO] Error getting keywords from Alchemy", exception);
                 return new ReadOnlyCollection<string>(new List<string>());
             }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        ///     Determines whether the specified self has attribute.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="propertyInfo">The propertyInfo.</param>
-        /// <returns><c>true</c> if the specified self has attribute; otherwise, <c>false</c>.</returns>
-        private static bool HasAttribute<T>(PropertyInfo propertyInfo) where T : Attribute
-        {
-            T attr = (T)Attribute.GetCustomAttribute(propertyInfo, typeof(T));
-
-            return attr != null;
-        }
-
-        /// <summary>
-        ///     Gets the settings.
-        /// </summary>
-        private void GetSettings()
-        {
-            string alchemyKey = ConfigurationManager.AppSettings["seo.alchemy.key"];
-            int maxItems;
-            
-            if (!int.TryParse(ConfigurationManager.AppSettings["seo.alchemy.maxitems"], out maxItems))
-            {
-                maxItems = 20;
-            }
-
-            PageData startPageData = this.ContentRepository.Service.Get<PageData>(ContentReference.StartPage);
-
-            PropertyInfo keywordSettingsProperty =
-                startPageData.GetType()
-                    .GetProperties()
-                    .Where(HasAttribute<KeywordGenerationSettingsAttribute>)
-                    .FirstOrDefault();
-
-            if (keywordSettingsProperty == null)
-            {
-                this.MaxItems = maxItems;
-                this.AlchemyKey = alchemyKey;
-                return;
-            }
-
-            KeywordGenerationSettingsBlock keywordGenerationSettings =
-                startPageData[keywordSettingsProperty.Name] as KeywordGenerationSettingsBlock;
-
-            if (keywordGenerationSettings == null)
-            {
-                this.MaxItems = maxItems;
-                this.AlchemyKey = alchemyKey;
-                return;
-            }
-
-            this.MaxItems = keywordGenerationSettings.MaxItems > 0 ? keywordGenerationSettings.MaxItems : 20;
-            this.AlchemyKey = !string.IsNullOrWhiteSpace(keywordGenerationSettings.AlchemyKey)
-                                  ? keywordGenerationSettings.AlchemyKey
-                                  : alchemyKey;
         }
 
         #endregion
