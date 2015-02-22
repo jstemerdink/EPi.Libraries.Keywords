@@ -2,6 +2,8 @@
 
 By Jeroen Stemerdink
 
+[![Build status](https://ci.appveyor.com/api/projects/status/tt6pwtrm8k3k2gf9/branch/master?svg=true)](https://ci.appveyor.com/project/jstemerdink/epi-libraries-keywords/branch/master)
+
 ## About
 
 Add EPi.Libraries.SEO to your project. When you add this, the service will be injected into the functionality of the main module.
