@@ -37,10 +37,10 @@ using EPiServer.DataAbstraction;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Globalization;
+using EPiServer.Logging;
 using EPiServer.ServiceLocation;
 using EPiServer.SpecializedProperties;
 
-using log4net;
 
 namespace EPi.Libraries.Keywords
 {
@@ -56,7 +56,7 @@ namespace EPi.Libraries.Keywords
         /// <summary>
         ///     The logger
         /// </summary>
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(KeywordsInitialization));
+        private static readonly ILogger Logger = LogManager.GetLogger(typeof(KeywordsInitialization));
 
         #endregion
 
@@ -102,18 +102,6 @@ namespace EPi.Libraries.Keywords
         public void Initialize(InitializationEngine context)
         {
             this.ContentEvents.Service.PublishingContent += this.OnPublishingContent;
-        }
-
-        /// <summary>
-        ///     Preloads the module.
-        /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        /// <remarks>
-        ///     This method is only available to be compatible with "AlwaysRunning" applications in .NET 4 / IIS 7.
-        ///     It currently serves no purpose.
-        /// </remarks>
-        public void Preload(string[] parameters)
-        {
         }
 
         /// <summary>
