@@ -18,10 +18,9 @@ Note that not all languages are supported by Alchemy (http://www.alchemyapi.com/
 
 ## Requirements
 
-* EPiServer >= 7.7.1
-* log4net
-* .Net 4.0
-* EPiServer.Libraries.SEO 1.0.0.0
+* EPiServer >= 8.0.0
+* .Net 4.5
+* EPi.Libraries.Keywords 1.0.0.0
 
 ## Deploy
 

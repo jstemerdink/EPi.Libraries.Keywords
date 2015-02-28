@@ -2,8 +2,6 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-using EPiServer.Logging;
-
 [assembly: AssemblyTitle("EPi.Libraries.Keywords")]
 [assembly: AssemblyDescription("Library with helpers for SEO.")]
 [assembly: AssemblyConfiguration("")]
@@ -33,7 +31,5 @@ using EPiServer.Logging;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
-
-[assembly: LoggerFactory(typeof(EPiServer.Logging.Log4Net.Log4NetLoggerFactory))]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

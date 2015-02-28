@@ -1,4 +1,4 @@
-﻿// Copyright© 2014 Jeroen Stemerdink. All Rights Reserved.
+﻿// Copyright© 2015 Jeroen Stemerdink. All Rights Reserved.
 // 
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -24,7 +24,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -36,11 +35,9 @@ using EPiServer.Core.Html;
 using EPiServer.DataAbstraction;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
-using EPiServer.Globalization;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
 using EPiServer.SpecializedProperties;
-
 
 namespace EPi.Libraries.Keywords
 {
