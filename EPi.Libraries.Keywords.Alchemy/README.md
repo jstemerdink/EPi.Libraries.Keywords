@@ -20,7 +20,7 @@ Note that not all languages are supported by Alchemy (http://www.alchemyapi.com/
 
 * EPiServer >= 8.0.0
 * .Net 4.5
-* EPi.Libraries.Keywords 1.0.0.0
+* EPi.Libraries.Keywords 2.0.0.0
 
 ## Deploy
 
