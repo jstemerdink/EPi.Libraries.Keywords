@@ -136,25 +136,16 @@ namespace EPi.Libraries.Keywords.Alchemy
                 WebRequest translationWebRequest = WebRequest.Create(uri);
                 translationWebRequest.Method = "POST";
 
-                Stream stream;
-
-                using (WebResponse response = translationWebRequest.GetResponse())
-                {
-                    stream = response.GetResponseStream();
-                }
-
-                if (stream == null)
-                {
-                    return null;
-                }
-
                 Encoding encode = Encoding.GetEncoding("utf-8");
 
                 string json;
 
-                using (StreamReader translatedStream = new StreamReader(stream, encode))
+                using (WebResponse response = translationWebRequest.GetResponse())
                 {
-                    json = translatedStream.ReadToEnd();
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream(), encode))
+                    {
+                        json = reader.ReadToEnd();
+                    }
                 }
 
                 AlchemyResponse alchemyResponse = JsonConvert.DeserializeObject<AlchemyResponse>(json);
