@@ -35,9 +35,8 @@ using System.Web;
 using EPi.Libraries.Keywords.Alchemy.Models;
 
 using EPiServer;
+using EPiServer.Logging;
 using EPiServer.ServiceLocation;
-
-using log4net;
 
 using Newtonsoft.Json;
 
@@ -54,7 +53,7 @@ namespace EPi.Libraries.Keywords.Alchemy
         /// <summary>
         ///     The logger
         /// </summary>
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(AlchemyExtractionService));
+        private static readonly ILogger Logger = LogManager.GetLogger(typeof(KeywordsInitialization));
 
         #endregion
 
