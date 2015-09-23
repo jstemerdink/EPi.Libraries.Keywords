@@ -28,7 +28,6 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-using log4net.Config;
 
 [assembly: AssemblyTitle("EPi.Libraries.Keywords.Alchemy")]
 [assembly: AssemblyDescription("Alchemy provider for extracting keywords from text.")]

@@ -10,12 +10,11 @@
     <iconUrl>http://jstemerdink.net/images/js-nuget.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>Updated for EPiServer 9</releaseNotes>
     <copyright>Copyright © Jeroen Stemerdink 2015</copyright>
     <tags>seo keywords translate alchemy</tags>
     <dependencies>
-      <dependency id="EPiServer.CMS.Core" version="[8.0.0, 9.0)" />
-      <dependency id="EPiServer.CMS.UI.Core" version="[8.0.0, 9.0)" />
+      <dependency id="EPiServer.CMS.Core" version="[9.0.3, 10.0)" />
     </dependencies>
   </metadata>
   <files>
