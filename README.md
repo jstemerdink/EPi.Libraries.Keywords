@@ -1,4 +1,4 @@
-﻿# A set of addon functionalities for EPiServer 7. 
+﻿# Add keywords to your page through a provider.
 
 By Jeroen Stemerdink
 
