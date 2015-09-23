@@ -137,14 +137,24 @@ namespace EPi.Libraries.Keywords.Alchemy
 
                 Encoding encode = Encoding.GetEncoding("utf-8");
 
-                string json;
+                string json = string.Empty;
 
                 using (WebResponse response = translationWebRequest.GetResponse())
                 {
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream(), encode))
+                    Stream responseStream = response.GetResponseStream();
+
+                    if (responseStream != null)
                     {
-                        json = reader.ReadToEnd();
+                        using (StreamReader reader = new StreamReader(responseStream, encode))
+                        {
+                            json = reader.ReadToEnd();
+                        }
                     }
+                }
+
+                if (string.IsNullOrWhiteSpace(json))
+                {
+                    return new ReadOnlyCollection<string>(new List<string>());
                 }
 
                 AlchemyResponse alchemyResponse = JsonConvert.DeserializeObject<AlchemyResponse>(json);
