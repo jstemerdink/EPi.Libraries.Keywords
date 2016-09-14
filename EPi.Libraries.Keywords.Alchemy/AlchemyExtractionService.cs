@@ -1,5 +1,4 @@
-﻿// Copyright© 2015 Jeroen Stemerdink. All Rights Reserved.
-// 
+﻿// Copyright © 2016 Jeroen Stemerdink.
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -8,10 +7,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -20,44 +17,37 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Configuration;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Web;
-
-using EPi.Libraries.Keywords.Alchemy.Models;
-
-using EPiServer;
-using EPiServer.Logging;
-using EPiServer.ServiceLocation;
-
-using Newtonsoft.Json;
-
 namespace EPi.Libraries.Keywords.Alchemy
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Configuration;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Text;
+    using System.Web;
+
+    using EPi.Libraries.Keywords.Alchemy.Models;
+
+    using EPiServer;
+    using EPiServer.Logging;
+    using EPiServer.ServiceLocation;
+
+    using Newtonsoft.Json;
+
     /// <summary>
     ///     Class AlchemyExtractionService.
     /// </summary>
     [ServiceConfiguration(typeof(IExtractionService))]
     public class AlchemyExtractionService : IExtractionService
     {
-        #region Static Fields
-
         /// <summary>
         ///     The logger
         /// </summary>
         private static readonly ILogger Logger = LogManager.GetLogger(typeof(KeywordsInitialization));
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         ///     Gets or sets the content repository.
@@ -96,10 +86,6 @@ namespace EPi.Libraries.Keywords.Alchemy
             }
         }
 
-        #endregion
-
-        #region Public Methods and Operators
-
         /// <summary>
         ///     Gets the keywords.
         /// </summary>
@@ -111,6 +97,7 @@ namespace EPi.Libraries.Keywords.Alchemy
             {
                 return new ReadOnlyCollection<string>(new List<string>());
             }
+
             try
             {
                 Uri uri;
@@ -174,7 +161,5 @@ namespace EPi.Libraries.Keywords.Alchemy
                 return new ReadOnlyCollection<string>(new List<string>());
             }
         }
-
-        #endregion
     }
 }
