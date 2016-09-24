@@ -1,5 +1,4 @@
-﻿// Copyright© 2015 Jeroen Stemerdink. All Rights Reserved.
-// 
+﻿// Copyright © 2016 Jeroen Stemerdink.
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -8,10 +7,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -20,27 +17,26 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
-
-using EPi.Libraries.Keywords.DataAnnotations;
-
-using EPiServer;
-using EPiServer.Core;
-using EPiServer.Core.Html;
-using EPiServer.DataAbstraction;
-using EPiServer.Framework;
-using EPiServer.Framework.Initialization;
-using EPiServer.Logging;
-using EPiServer.ServiceLocation;
-using EPiServer.SpecializedProperties;
-
 namespace EPi.Libraries.Keywords
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Reflection;
+
+    using EPi.Libraries.Keywords.DataAnnotations;
+
+    using EPiServer;
+    using EPiServer.Core;
+    using EPiServer.Core.Html;
+    using EPiServer.DataAbstraction;
+    using EPiServer.Framework;
+    using EPiServer.Framework.Initialization;
+    using EPiServer.Logging;
+    using EPiServer.ServiceLocation;
+    using EPiServer.SpecializedProperties;
+
     /// <summary>
     ///     Class KeywordsInitialization.
     /// </summary>
@@ -48,16 +44,10 @@ namespace EPi.Libraries.Keywords
     [ModuleDependency(typeof(FrameworkInitialization))]
     public class KeywordsInitialization : IInitializableModule
     {
-        #region Static Fields
-
         /// <summary>
         ///     The logger
         /// </summary>
         private static readonly ILogger Logger = LogManager.GetLogger(typeof(KeywordsInitialization));
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         ///     Gets or sets the content events.
@@ -82,10 +72,6 @@ namespace EPi.Libraries.Keywords
         /// </summary>
         /// <value>The extraction service.</value>
         protected Injected<IExtractionService> ExtractionService { get; set; }
-
-        #endregion
-
-        #region Public Methods and Operators
 
         /// <summary>
         ///     Initializes this instance.
@@ -123,10 +109,6 @@ namespace EPi.Libraries.Keywords
         {
             this.ContentEvents.Service.PublishingContent -= this.OnPublishingContent;
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         ///     Gets the name of the key word property.
@@ -178,7 +160,7 @@ namespace EPi.Libraries.Keywords
                 {
                     foreach (string current2 in
                         this.GetSearchablePropertyValues(
-                            propertyBlock.Block,
+                            propertyBlock.Block, 
                             propertyBlock.BlockPropertyDefinitionTypeID))
                     {
                         yield return current2;
@@ -257,7 +239,5 @@ namespace EPi.Libraries.Keywords
                 page[keywordsMetatagProperty.Name] = string.Join(",", keywordList);
             }
         }
-
-        #endregion
     }
 }

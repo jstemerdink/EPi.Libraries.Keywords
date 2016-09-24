@@ -1,4 +1,4 @@
-﻿// Copyright© 2015 Jeroen Stemerdink. All Rights Reserved.
+﻿// Copyright© 2016 Jeroen Stemerdink. All Rights Reserved.
 // 
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -34,7 +34,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jeroen Stemerdink")]
 [assembly: AssemblyProduct("EPi.Libraries.Keywords.Alchemy")]
-[assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2015")]
+[assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
