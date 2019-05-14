@@ -1,4 +1,4 @@
-﻿// Copyright © 2016 Jeroen Stemerdink.
+﻿// Copyright © 2019 Jeroen Stemerdink.
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -27,10 +27,12 @@ namespace EPi.Libraries.Keywords
     public interface IExtractionService
     {
         /// <summary>
-        ///     Gets the keywords.
+        /// Gets the keywords.
         /// </summary>
         /// <param name="text">The text.</param>
-        /// <returns>ReadOnlyCollection&lt;System.String&gt;.</returns>
-        ReadOnlyCollection<string> GetKeywords(string text);
+        /// <param name="language">The language.</param>
+        /// <param name="id">The identifier of the content.</param>
+        /// <returns>A <see cref="ReadOnlyCollection{T}" /> of keywords.</returns>
+        ReadOnlyCollection<string> GetKeywords(string text, string language, string id);
     }
 }

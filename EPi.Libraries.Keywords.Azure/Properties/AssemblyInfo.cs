@@ -1,4 +1,4 @@
-﻿// Copyright© 2016 Jeroen Stemerdink. All Rights Reserved.
+﻿// Copyright © 2019 Jeroen Stemerdink. All Rights Reserved.
 // 
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,12 +29,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("EPi.Libraries.Keywords.Alchemy")]
-[assembly: AssemblyDescription("Alchemy provider for extracting keywords from text.")]
+[assembly: AssemblyTitle("EPi.Libraries.Keywords.Azure")]
+[assembly: AssemblyDescription("Azure provider for extracting keywords from text.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jeroen Stemerdink")]
-[assembly: AssemblyProduct("EPi.Libraries.Keywords.Alchemy")]
-[assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2016")]
+[assembly: AssemblyProduct("EPi.Libraries.Keywords.Azure")]
+[assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -47,4 +47,4 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
-[assembly: Guid("2378cd81-b5bc-4826-80e0-74d2ed1febd4")]
+[assembly: Guid("4bd3be50-d5fb-46dd-8ef7-0b76fec6c62e")]
