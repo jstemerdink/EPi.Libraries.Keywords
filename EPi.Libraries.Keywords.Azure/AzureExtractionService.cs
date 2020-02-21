@@ -23,21 +23,12 @@ namespace EPi.Libraries.Keywords.Azure
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Configuration;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Net;
-    using System.Text;
-    using System.Web;
-
-    using EPiServer;
+   
     using EPiServer.Logging;
     using EPiServer.ServiceLocation;
 
     using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
     using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
-
-    using Newtonsoft.Json;
 
     /// <summary>
     ///     Class AzureExtractionService.
@@ -50,30 +41,15 @@ namespace EPi.Libraries.Keywords.Azure
         /// </summary>
         private static readonly ILogger Logger = LogManager.GetLogger(typeof(KeywordsInitialization));
 
-        private readonly TextAnalyticsClient client;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="AzureExtractionService"/> class.
+        ///     Gets the text analytics key.
         /// </summary>
-        public AzureExtractionService()
-        {
-            ApiKeyServiceClientCredentials credentials = new ApiKeyServiceClientCredentials(subscriptionKey: TextAnalyticsKey);
-
-            this.client = new TextAnalyticsClient(credentials: credentials)
-                              {
-                                  Endpoint = TextAnalysisEndpoint
-                              };
-        }
-
-        /// <summary>
-        ///     Gets the textanalysis key.
-        /// </summary>
-        /// <value>The textanalysis key.</value>
+        /// <value>The analytics key.</value>
         private static string TextAnalyticsKey
         {
             get
             {
-                return ConfigurationManager.AppSettings["seo.textanalytics.key"];
+                return ConfigurationManager.AppSettings["azure.textanalytics.key"];
             }
         }
 
@@ -81,7 +57,7 @@ namespace EPi.Libraries.Keywords.Azure
         {
             get
             {
-                return ConfigurationManager.AppSettings["seo.textanalytics.endpoint"];
+                return ConfigurationManager.AppSettings["azure.textanalytics.endpoint"];
             }
         }
 
@@ -101,13 +77,20 @@ namespace EPi.Libraries.Keywords.Azure
 
             try
             {
+                ApiKeyServiceClientCredentials credentials = new ApiKeyServiceClientCredentials(subscriptionKey: TextAnalyticsKey);
+
+                TextAnalyticsClient client = new TextAnalyticsClient(credentials: credentials)
+                {
+                    Endpoint = TextAnalysisEndpoint
+                };
+
                 MultiLanguageBatchInput inputDocuments = new MultiLanguageBatchInput(
                     new List<MultiLanguageInput>
                         {
                             new MultiLanguageInput(language: language, id: id, text: text)
                         });
 
-                KeyPhraseBatchResult kpResults = this.client.KeyPhrasesAsync(false, multiLanguageBatchInput: inputDocuments).Result;
+                KeyPhraseBatchResult kpResults = client.KeyPhrasesBatch(multiLanguageBatchInput: inputDocuments);
 
                 return new ReadOnlyCollection<string>(list: kpResults.Documents[0].KeyPhrases);
             }

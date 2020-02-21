@@ -2,7 +2,7 @@
   <appSettings xdt:Transform="InsertIfMissing" />
   
   <appSettings>
-    <add key="seo.textanalytics.key" value="" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
-    <add key="seo.textanalytics.endpoint" value="https://westeurope.api.cognitive.microsoft.com" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+    <add key="azure.textanalytics.key" value="" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
+    <add key="azure.textanalytics.endpoint" value="https://westeurope.api.cognitive.microsoft.com" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
   </appSettings>
 </configuration>

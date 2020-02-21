@@ -273,14 +273,6 @@ namespace EPi.Libraries.Keywords
 
             IEnumerable<string> props = this.GetSearchablePropertyValues(contentData: pageData, contentTypeId: pageData.ContentTypeID);
 
-            ////ILocalizable localizable = e.Content as ILocalizable;
-            ////CultureInfo currentLanguage = ContentLanguage.PreferredCulture;
-
-            ////if (localizable != null)
-            ////{
-            ////    currentLanguage = localizable.Language;
-            ////}
-
             string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", values: props), 0).ToLower(culture: pageData.Language);
 
             ReadOnlyCollection<string> keywordList;

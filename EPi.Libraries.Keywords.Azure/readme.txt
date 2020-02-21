@@ -1,8 +1,8 @@
 ﻿Add the [KeywordsMetaTag] to your keywords property.
 
-Add an Azure API key to your appsettings <add key="seo.textanalytics.key" value="YourKey" />
+Add an Azure API key to your appsettings <add key="azure.textanalytics.key" value="YourKey" />
 
-Update the endpoint in your appsettings <add key="seo.textanalytics.endpoint" value="YourValue" /> if needed.
+Update the endpoint in your appsettings <add key="azure.textanalytics.endpoint" value="YourValue" /> if needed.
 
 
 
