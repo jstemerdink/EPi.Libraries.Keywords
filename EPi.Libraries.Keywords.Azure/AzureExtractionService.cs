@@ -68,6 +68,7 @@ namespace EPi.Libraries.Keywords.Azure
         /// <param name="language">The language.</param>
         /// <param name="id">The identifier of the content.</param>
         /// <returns>A <see cref="ReadOnlyCollection{T}" /> of keywords.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         public ReadOnlyCollection<string> GetKeywords(string text, string language, string id)
         {
             if (string.IsNullOrWhiteSpace(value: TextAnalyticsKey))

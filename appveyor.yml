@@ -20,10 +20,14 @@ after_build:
 - cmd: appveyor PushArtifact "EPi.Libraries.Keywords.%GitVersion_NuGetVersion%.nupkg"
 - cmd: nuget pack EPi.Libraries.Keywords.Azure\EPi.Libraries.Keywords.Azure.csproj -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
 - cmd: appveyor PushArtifact "EPi.Libraries.Keywords.Azure.%GitVersion_NuGetVersion%.nupkg"
+- cmd: nuget pack EPi.Libraries.Keywords.Commerce\EPi.Libraries.Keywords.Commerce.csproj -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
+- cmd: appveyor PushArtifact "EPi.Libraries.Keywords.Commerce.%GitVersion_NuGetVersion%.nupkg"
 - 7z a EPi.Libraries.Keywords.%GitVersion_NuGetVersion%.zip %APPVEYOR_BUILD_FOLDER%\EPi.Libraries.Keywords\bin\Release\EPi.Libraries.Keywords.dll
 - cmd: appveyor PushArtifact "EPi.Libraries.Keywords.%GitVersion_NuGetVersion%.zip"
 - 7z a EPi.Libraries.Keywords.Azure.%GitVersion_NuGetVersion%.zip %APPVEYOR_BUILD_FOLDER%\EPi.Libraries.Keywords.Azure\bin\Release\EPi.Libraries.Keywords.Azure.dll
 - cmd: appveyor PushArtifact "EPi.Libraries.Keywords.Azure.%GitVersion_NuGetVersion%.zip"
+- 7z a EPi.Libraries.Keywords.Commerce.%GitVersion_NuGetVersion%.zip %APPVEYOR_BUILD_FOLDER%\EPi.Libraries.Keywords.Commerce\bin\Release\EPi.Libraries.Keywords.Commerce.dll
+- cmd: appveyor PushArtifact "EPi.Libraries.Keywords.Commerce.%GitVersion_NuGetVersion%.zip"
 before_package:
 - ps: >-
     Write-Host -NoNewline "Installing NuGet 3.3.0..."
