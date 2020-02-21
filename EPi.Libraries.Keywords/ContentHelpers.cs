@@ -25,7 +25,6 @@ namespace EPi.Libraries.Keywords
     using EPiServer;
     using EPiServer.Core;
     using EPiServer.DataAbstraction;
-    using EPiServer.ServiceLocation;
     using EPiServer.SpecializedProperties;
 
     public class ContentHelpers
