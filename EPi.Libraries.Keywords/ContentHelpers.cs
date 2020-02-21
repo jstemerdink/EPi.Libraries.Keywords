@@ -59,7 +59,7 @@ namespace EPi.Libraries.Keywords
 
             foreach (ContentAreaItem contentAreaItem in contentArea.Items)
             {
-                if (!this.ContentRepository.TryGet(contentLink: contentAreaItem.ContentLink, out IContent content))
+                if (!this.ContentRepository.TryGet(contentAreaItem.ContentLink, out IContent content))
                 {
                     continue;
                 }
@@ -147,9 +147,7 @@ namespace EPi.Libraries.Keywords
         /// <returns>A list of values.</returns>
         public IEnumerable<string> GetSearchablePropertyValues(IContentData contentData, int contentTypeId)
         {
-            return this.GetSearchablePropertyValues(
-                contentData: contentData,
-                this.ContentTypeRepository.Load(id: contentTypeId));
+            return this.GetSearchablePropertyValues(contentData, this.ContentTypeRepository.Load(contentTypeId));
         }
     }
 }

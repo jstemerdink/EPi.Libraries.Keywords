@@ -34,7 +34,6 @@ namespace EPi.Libraries.Keywords
     using EPiServer.Framework;
     using EPiServer.Framework.Initialization;
     using EPiServer.Logging;
-    using EPiServer.SpecializedProperties;
 
     /// <summary>
     ///     Class KeywordsInitialization.
@@ -123,7 +122,7 @@ namespace EPi.Libraries.Keywords
         private static PropertyInfo GetKeyWordProperty(IContent page)
         {
             PropertyInfo keywordsMetatagProperty =
-                page.GetType().GetProperties().Where(predicate: HasAttribute<KeywordsMetaTagAttribute>).FirstOrDefault();
+                page.GetType().GetProperties().FirstOrDefault(predicate: HasAttribute<KeywordsMetaTagAttribute>);
 
             return keywordsMetatagProperty;
         }
