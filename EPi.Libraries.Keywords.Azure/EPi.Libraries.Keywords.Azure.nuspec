@@ -6,19 +6,20 @@
     <title>$title$</title>
     <authors>Jeroen Stemerdink</authors>
     <owners>Jeroen Stemerdink</owners>
-    <projectUrl>https://github.com/jstemerdink/EPi.Libraries.Keywords/tree/master/EPi.Libraries.Keywords/</projectUrl>
+    <projectUrl>https://github.com/jstemerdink/EPi.Libraries.Keywords/tree/master/EPi.Libraries.Keywords.Azure/</projectUrl>
     <iconUrl>https://jstemerdink.files.wordpress.com/2020/02/js-nuget.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Add keywords to your page through text analytics</description>
+    <description>Add keywords to your page through text analytics in Azure</description>
     <releaseNotes>Updated for EPiServer 11</releaseNotes>
     <copyright>Copyright © Jeroen Stemerdink 2019</copyright>
-    <tags>seo keywords analytics</tags>
+    <tags>seo keywords analytics azure</tags>
     <dependencies>
-      <dependency id="EPiServer.CMS.Core" version="11.1.0" />
-      <dependency id="EPiServer.CMS.AspNet" version="11.1.0" />
+      <dependency id="EPi.Libraries.Keywords" version="5.0.0" />
+      <dependency id="Microsoft.Azure.CognitiveServices.Language.TextAnalytics" version="4.0.0" />
     </dependencies>
   </metadata>
   <files>
     <file src="readme.txt" target="" />
+    <file src="web.config.install.xdt" target="content" />
   </files>
 </package>
