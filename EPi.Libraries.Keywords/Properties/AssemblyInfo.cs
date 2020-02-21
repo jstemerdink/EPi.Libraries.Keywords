@@ -1,4 +1,4 @@
-﻿// Copyright© 2016 Jeroen Stemerdink. All Rights Reserved.
+﻿// Copyright © 2019 Jeroen Stemerdink. All Rights Reserved.
 // 
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -26,11 +26,11 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("EPi.Libraries.Keywords")]
-[assembly: AssemblyDescription("Library with helpers for SEO.")]
+[assembly: AssemblyDescription("Generate keywords through a provider.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jeroen Stemerdink")]
 [assembly: AssemblyProduct("EPi.Libraries.Keywords")]
-[assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2016")]
+[assembly: AssemblyCopyright("Copyright © Jeroen Stemerdink 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
