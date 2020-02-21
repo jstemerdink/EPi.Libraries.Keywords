@@ -17,25 +17,21 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-namespace EPi.Libraries.Keywords
+namespace EPi.Libraries.Keywords.Commerce
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Reflection;
     
-    using EPi.Libraries.Keywords.DataAnnotations;
-
     using EPiServer;
+    using EPiServer.Commerce.Catalog.ContentTypes;
     using EPiServer.Core;
     using EPiServer.Core.Html;
     using EPiServer.DataAbstraction;
     using EPiServer.Framework;
     using EPiServer.Framework.Initialization;
     using EPiServer.Logging;
-    using EPiServer.SpecializedProperties;
-
+    
     /// <summary>
     ///     Class KeywordsInitialization.
     /// </summary>
@@ -81,13 +77,13 @@ namespace EPi.Libraries.Keywords
         ///     only once per AppDomain, unless the method throws an exception. If an exception is thrown, the initialization
         ///     method will be called repeatedly for each request reaching the site until the method succeeds.
         /// </remarks>
+        /// <exception cref="T:EPiServer.ServiceLocation.ActivationException">if there is are errors resolving the service instance.</exception>
         public void Initialize(InitializationEngine context)
         {
             this.ContentEvents = context.Locate.Advanced.GetInstance<IContentEvents>();
             this.ContentRepository = context.Locate.Advanced.GetInstance<IContentRepository>();
             this.ContentTypeRepository = context.Locate.Advanced.GetInstance<IContentTypeRepository>();
             this.ExtractionService = context.Locate.Advanced.GetInstance<IExtractionService>();
-
 
             this.ContentEvents.PublishingContent += this.OnPublishingContent;
         }
@@ -115,32 +111,6 @@ namespace EPi.Libraries.Keywords
             this.ContentEvents.PublishingContent -= this.OnPublishingContent;
         }
 
-        /// <summary>
-        ///     Gets the name of the key word property.
-        /// </summary>
-        /// <param name="page">The page.</param>
-        /// <returns>The <see cref="PropertyInfo"/>.</returns>
-        private static PropertyInfo GetKeyWordProperty(IContent page)
-        {
-            PropertyInfo keywordsMetatagProperty =
-                page.GetType().GetProperties().Where(predicate: HasAttribute<KeywordsMetaTagAttribute>).FirstOrDefault();
-
-            return keywordsMetatagProperty;
-        }
-
-        /// <summary>
-        ///     Determines whether the specified self has attribute.
-        /// </summary>
-        /// <typeparam name="T">The attribute to look for.</typeparam>
-        /// <param name="propertyInfo">The propertyInfo.</param>
-        /// <returns><c>true</c> if the specified self has attribute; otherwise, <c>false</c>.</returns>
-        private static bool HasAttribute<T>(PropertyInfo propertyInfo) where T : Attribute
-        {
-            T attr = (T)Attribute.GetCustomAttribute(element: propertyInfo, attributeType: typeof(T));
-
-            return attr != null;
-        }
-
         private void OnPublishingContent(object sender, ContentEventArgs e)
         {
             if (e == null)
@@ -149,35 +119,27 @@ namespace EPi.Libraries.Keywords
             }
 
             // Check if the content that is published is a page. If it's not, don't do anything.
-            if (!(e.Content is PageData pageData))
+            if (!(e.Content is CatalogContentBase catalogContent))
             {
                 return;
             }
 
-            if (pageData.IsReadOnly)
+            if (catalogContent.IsReadOnly)
             {
-                pageData = pageData.CreateWritableClone();
-                e.Content = pageData;
-            }
-
-            PropertyInfo keywordsMetatagProperty = GetKeyWordProperty(page: pageData);
-
-            if (keywordsMetatagProperty == null)
-            {
-                return;
+                catalogContent = catalogContent.CreateWritableClone();
+                e.Content = catalogContent;
             }
 
             ContentHelpers contentHelpers = new ContentHelpers(this.ContentRepository, this.ContentTypeRepository);
+            IEnumerable<string> props = contentHelpers.GetSearchablePropertyValues(contentData: catalogContent, contentTypeId: catalogContent.ContentTypeID);
 
-            IEnumerable<string> props = contentHelpers.GetSearchablePropertyValues(contentData: pageData, contentTypeId: pageData.ContentTypeID);
-
-            string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", values: props), 0).ToLower(culture: pageData.Language);
+            string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", values: props), 0).ToLower(culture: catalogContent.Language);
 
             ReadOnlyCollection<string> keywordList;
 
             try
             {
-                keywordList = this.ExtractionService.GetKeywords(text: textToAnalyze, language: pageData.Language.TwoLetterISOLanguageName, id: pageData.ContentLink.ID.ToString());
+                keywordList = this.ExtractionService.GetKeywords(text: textToAnalyze, language: catalogContent.Language.TwoLetterISOLanguageName, id: catalogContent.ContentLink.ID.ToString());
             }
             catch (Exception exception)
             {
@@ -190,17 +152,14 @@ namespace EPi.Libraries.Keywords
                 return;
             }
 
-            if (keywordsMetatagProperty.PropertyType == typeof(string[]))
+            switch (catalogContent)
             {
-                pageData[index: keywordsMetatagProperty.Name] = keywordList.ToArray();
-            }
-            else if (keywordsMetatagProperty.PropertyType == typeof(List<string>))
-            {
-                pageData[index: keywordsMetatagProperty.Name] = keywordList;
-            }
-            else if (keywordsMetatagProperty.PropertyType == typeof(string))
-            {
-                pageData[index: keywordsMetatagProperty.Name] = string.Join(", ", values: keywordList);
+                case EntryContentBase entryContent:
+                    entryContent.SeoInformation.Keywords = string.Join(", ", values: keywordList);
+                    return;
+                case NodeContent nodeContent:
+                    nodeContent.SeoInformation.Keywords = string.Join(", ", values: keywordList);
+                    break;
             }
         }
     }

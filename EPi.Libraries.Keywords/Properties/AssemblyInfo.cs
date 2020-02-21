@@ -26,7 +26,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("EPi.Libraries.Keywords")]
-[assembly: AssemblyDescription("Library with helpers for SEO.")]
+[assembly: AssemblyDescription("Generate keywords through a provider.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Jeroen Stemerdink")]
 [assembly: AssemblyProduct("EPi.Libraries.Keywords")]
