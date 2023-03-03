@@ -1,37 +1,44 @@
-﻿// Copyright © 2019 Jeroen Stemerdink.
-// Permission is hereby granted, free of charge, to any person
-// obtaining a copy of this software and associated documentation
-// files (the "Software"), to deal in the Software without
-// restriction, including without limitation the rights to use,
-// copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following
-// conditions:
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-// OTHER DEALINGS IN THE SOFTWARE.
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="KeywordsInitialization.cs" company="Jeroen Stemerdink">
+//      Copyright © 2023 Jeroen Stemerdink.
+//      Permission is hereby granted, free of charge, to any person obtaining a copy
+//      of this software and associated documentation files (the "Software"), to deal
+//      in the Software without restriction, including without limitation the rights
+//      to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//      copies of the Software, and to permit persons to whom the Software is
+//      furnished to do so, subject to the following conditions:
+//
+//      The above copyright notice and this permission notice shall be included in all
+//      copies or substantial portions of the Software.
+//
+//      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//      IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//      FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//      AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//      SOFTWARE.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
 namespace EPi.Libraries.Keywords.Commerce
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    
+    using System.IO;
+    using System.Text;
+
     using EPiServer;
     using EPiServer.Commerce.Catalog.ContentTypes;
     using EPiServer.Core;
-    using EPiServer.Core.Html;
     using EPiServer.DataAbstraction;
     using EPiServer.Framework;
     using EPiServer.Framework.Initialization;
+    using EPiServer.HtmlParsing;
+    using EPiServer.HtmlParsing.Internal;
     using EPiServer.Logging;
-    
+    using EPiServer.ServiceLocation;
+
     /// <summary>
     ///     Class KeywordsInitialization.
     /// </summary>
@@ -77,7 +84,6 @@ namespace EPi.Libraries.Keywords.Commerce
         ///     only once per AppDomain, unless the method throws an exception. If an exception is thrown, the initialization
         ///     method will be called repeatedly for each request reaching the site until the method succeeds.
         /// </remarks>
-        /// <exception cref="T:EPiServer.ServiceLocation.ActivationException">if there is are errors resolving the service instance.</exception>
         public void Initialize(InitializationEngine context)
         {
             this.ContentEvents = context.Locate.Advanced.GetInstance<IContentEvents>();
@@ -130,16 +136,31 @@ namespace EPi.Libraries.Keywords.Commerce
                 e.Content = catalogContent;
             }
 
-            ContentHelpers contentHelpers = new ContentHelpers(this.ContentRepository, this.ContentTypeRepository);
-            IEnumerable<string> props = contentHelpers.GetSearchablePropertyValues(contentData: catalogContent, contentTypeId: catalogContent.ContentTypeID);
+            ContentHelpers contentHelpers = new ContentHelpers(
+                contentRepository: this.ContentRepository,
+                contentTypeRepository: this.ContentTypeRepository);
+            IEnumerable<string> props = contentHelpers.GetSearchablePropertyValues(
+                contentData: catalogContent,
+                contentTypeId: catalogContent.ContentTypeID);
 
-            string textToAnalyze = TextIndexer.StripHtml(string.Join(" ", values: props), 0).ToLower(culture: catalogContent.Language);
+            HtmlFilter htmlFilter = new HtmlFilter(new StripHtmlFilterRules());
+
+            StringBuilder filteredOuput = new StringBuilder();
+            StringWriter outputWriter = new StringWriter(sb: filteredOuput);
+
+            htmlFilter.FilterHtml(new StringReader(string.Join(" ", values: props)), output: outputWriter);
+            outputWriter.Dispose();
+
+            string textToAnalyze = filteredOuput.ToString().ToLower(culture: catalogContent.Language);
 
             ReadOnlyCollection<string> keywordList;
 
             try
             {
-                keywordList = this.ExtractionService.GetKeywords(text: textToAnalyze, language: catalogContent.Language.TwoLetterISOLanguageName, id: catalogContent.ContentLink.ID.ToString());
+                keywordList = this.ExtractionService.GetKeywords(
+                    text: textToAnalyze,
+                    language: catalogContent.Language.TwoLetterISOLanguageName,
+                    catalogContent.ContentLink.ID.ToString());
             }
             catch (Exception exception)
             {
