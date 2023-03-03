@@ -1,8 +1,0 @@
-﻿<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
-  <appSettings xdt:Transform="InsertIfMissing" />
-  
-  <appSettings>
-    <add key="azure.textanalytics.key" value="" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
-    <add key="azure.textanalytics.endpoint" value="https://westeurope.api.cognitive.microsoft.com" xdt:Transform="InsertIfMissing" xdt:Locator="Match(key)" />
-  </appSettings>
-</configuration>
