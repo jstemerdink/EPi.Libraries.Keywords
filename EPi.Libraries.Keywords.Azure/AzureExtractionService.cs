@@ -69,14 +69,14 @@ namespace EPi.Libraries.Keywords.Azure
         /// <exception cref="ConfigurationErrorsException">Setting could not be found.</exception>
         public ReadOnlyCollection<string> GetKeywords(string text, string language, string id)
         {
-            string textAnalyticsKey = this.configuration.GetValue<string>("Azure.TextAnalytics.Key");
+            string textAnalyticsKey = this.configuration.GetValue<string>("Azure:TextAnalytics:Key");
 
             if (string.IsNullOrWhiteSpace(value: textAnalyticsKey))
             {
                 throw new ConfigurationErrorsException(message: KeyMissingMessage);
             }
 
-            string textAnalysisEndpoint = this.configuration.GetValue<string>("Azure.TextAnalytics.Endpoint");
+            string textAnalysisEndpoint = this.configuration.GetValue<string>("Azure:TextAnalytics:Endpoint");
 
             if (string.IsNullOrWhiteSpace(value: textAnalysisEndpoint))
             {
@@ -92,6 +92,7 @@ namespace EPi.Libraries.Keywords.Azure
                                                  {
                                                      Endpoint = textAnalysisEndpoint
                                                  };
+
 
                 MultiLanguageBatchInput inputDocuments = new MultiLanguageBatchInput(
                     new List<MultiLanguageInput> { new MultiLanguageInput(language: language, id: id, text: text) });
