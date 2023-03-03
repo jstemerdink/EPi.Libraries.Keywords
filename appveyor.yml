@@ -20,7 +20,7 @@ build_script:
   - dotnet build "EPi.Libraries.Keywords.sln" --no-restore -c Release -p:Version=%GitVersion_MajorMinorPatch% -p:AssemblyVersion=%GitVersion_AssemblySemVer% -p:FileVersion=%GitVersion_AssemblySemFileVer% -p:ProductVersion=%GitVersion_MajorMinorPatch%
   - dotnet pack "EPi.Libraries.Keywords.sln" --no-build -c Release -p:PackageVersion=%GitVersion_NuGetVersion%
   - dotnet sonarscanner end /d:"sonar.login=0b0eec6902ab7d776899f79bfeff15d313dd6e09"
- after_build:
+after_build:
 - cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\EPi.Libraries.Keywords\bin\Release\EPi.Libraries.Keywords.%GitVersion_NuGetVersion%.nupkg"
 - cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\EPi.Libraries.Keywords.Azure\bin\Release\EPi.Libraries.Keywords.Azure.%GitVersion_NuGetVersion%.nupkg"
 - cmd: appveyor PushArtifact "%APPVEYOR_BUILD_FOLDER%\EPi.Libraries.Keywords.Commerce\bin\Release\EPi.Libraries.Keywords.Commerce.%GitVersion_NuGetVersion%.nupkg"
